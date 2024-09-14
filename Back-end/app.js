@@ -10,7 +10,7 @@ const app = express();
 dotenv.config();
 
 const corsOptions = {
-  origin: 'http://localhost:5173', // Replace with your frontend's domain
+  origin: 'https://addisong.netlify.app', // Replace with your frontend's domain
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };

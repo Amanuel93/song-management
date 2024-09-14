@@ -5,13 +5,13 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Step 3: Copy the package.json and package-lock.json to install dependencies
-COPY Back-end/package*.json ./
+COPY package*.json ./
 
 # Step 4: Install the app dependencies
 RUN npm install --omit=dev
 
 # Step 5: Copy the rest of the app's source code into the container
-COPY Back-end/ ./
+COPY ./ ./
 
 # Step 6: Set the environment variables (optional, will be overridden by docker-compose)
 ENV PORT=5000
