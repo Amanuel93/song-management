@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: backend-app
+    env: docker
+    dockerfilePath: ./Back-end/Dockerfile
+    plan: free
+    envVars:
+      - key: MONGODB_URI
+        value: mongodb+srv://horamallee193:Aman12345@cluster0.tv84e.mongodb.net/song-management?ssl=true&replicaSet=atlas-116o4h-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0
+      - key: PORT
+        value: "5000"
+    ports:
+      - 5000
+    autoDeploy: true
