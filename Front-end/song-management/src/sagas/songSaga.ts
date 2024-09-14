@@ -55,7 +55,7 @@ function* fetchSongsSaga(action: ReturnType<typeof fetchSongsStart>) {
     // Making an API call to fetch the songs
     const response: AxiosResponse<{ songs: Song[] }> = yield call(
       axios.get,
-      'http://localhost:5000/api/songs/getAllSongs',
+      'https://song-management-11.onrender.com/api/songs/getAllSongs',
       {
         params: { page }, // Passing page number as a query parameter
       }
@@ -77,7 +77,7 @@ function* fetchFilteredSongsSaga(action: { type: string; payload: FetchFilteredS
   try {
     const { search, genre, artist, album, page, limit } = action.payload;
 
-    const response: AxiosResponse<{ songs: Song[], total: number }> = yield call(axios.get, 'http://localhost:5000/api/songs/getFilteredsong', {
+    const response: AxiosResponse<{ songs: Song[], total: number }> = yield call(axios.get, 'https://song-management-11.onrender.com/api/songs/getFilteredsong', {
       params: { search, genre, artist, album, page, limit },
     });
 
@@ -94,7 +94,7 @@ function* fetchFilteredSongsSaga(action: { type: string; payload: FetchFilteredS
 function* fetchSongByIdSaga(action: { type: string; payload: FetchSongByIdPayload }) {
   try {
     const { id } = action.payload;
-    const response: AxiosResponse<Song> = yield call(axios.get, `http://localhost:5000/api/songs/getSong/${id}`);
+    const response: AxiosResponse<Song> = yield call(axios.get, `https://song-management-11.onrender.com/api/songs/getSong/${id}`);
     yield put(fetchSongByIdSuccess(response.data));
   } catch (error) {
     // Type the error as an Error object
@@ -111,7 +111,7 @@ function* createSongSaga(action: { type: string; payload: FormData }) {
     //   formData.append(key, value);
     // });
 
-    const response: AxiosResponse<Song> = yield call(axios.post, 'http://localhost:5000/api/songs/create', action.payload, {
+    const response: AxiosResponse<Song> = yield call(axios.post, 'https://song-management-11.onrender.com/api/songs/create', action.payload, {
       headers: { 'Content-Type': 'multipart/form-data' },
     }) ;
     yield put(createSongSuccess(response.data));
@@ -133,7 +133,7 @@ function* updateSongSaga(action:  { type: string; payload: { id: string; data: F
     //   }
     // });
 
-    const response: AxiosResponse<Song> = yield call(axios.put, `http://localhost:5000/api/songs/updateSong/${id}`, data, {
+    const response: AxiosResponse<Song> = yield call(axios.put, `https://song-management-11.onrender.com/api/songs/updateSong/${id}`, data, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     yield put(updateSongSuccess(response.data));
@@ -148,7 +148,7 @@ function* updateSongSaga(action:  { type: string; payload: { id: string; data: F
 function* deleteSongSaga(action: { type: string; payload: DeleteSongPayload }) {
   try {
     const { id } = action.payload;
-    yield call(axios.delete, `http://localhost:5000/api/songs/delete/${id}`);
+    yield call(axios.delete, `https://song-management-11.onrender.com/api/songs/delete/${id}`);
     yield put(deleteSongSuccess(id));
   } catch (error) {
     // Type the error as an Error object
@@ -160,7 +160,7 @@ function* deleteSongSaga(action: { type: string; payload: DeleteSongPayload }) {
 // Fetch statistics
 function* fetchStatisticsSaga() {
   try {
-    const response: AxiosResponse<Statistics> = yield call(axios.get, 'http://localhost:5000/api/songs/statistics');
+    const response: AxiosResponse<Statistics> = yield call(axios.get, 'https://song-management-11.onrender.com/api/songs/statistics');
     yield put(fetchStatisticsSuccess(response.data));
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
