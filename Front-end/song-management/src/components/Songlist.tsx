@@ -12,7 +12,7 @@ import { Search } from './Stylels/styles';
 const SongList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const { songs, loading, error,currentPage} = useSelector((state: RootState) => state.songs);
-  const baseUrl = 'http://localhost:5000/';
+  const baseUrl = 'https://song-management-15.onrender.com/';
 
   // State to handle search input
   const [searchTerm, setSearchTerm] = useState('');
@@ -29,8 +29,6 @@ const SongList: React.FC = () => {
     }
   }, [searchTerm, dispatch]);
 
-
-
   const handleLoadMore = () => {
     dispatch(fetchSongsStart({ page: currentPage + 1 }));
   };
@@ -39,11 +37,6 @@ const SongList: React.FC = () => {
     // Update search term state when user types in the search input
     setSearchTerm(e.target.value);
   };
-
-
-  // if (loading) return <p>Loading...</p>;
-//   if (loading && currentPage === 1) return <p>Loading...</p>;
-//   if (error) return <p>Error: {error}</p>;
 
 const songList = songs || [];
 console.log(songs);
@@ -65,20 +58,22 @@ console.log(songs);
          {/* <IoSearchOutline className='search'/> */}
        </Search>
       <ul className='songList'>
-        {
-            loading
-             ?
-             <p>Loading</p>
-             :
-         songList.map(song => (
-          <li key={song._id}>  
-            <Songcard {...song} image={`${baseUrl}${song.image}`}/>
-          </li>
+       {
+        error ? (
+         <p>Loading Error happened</p>
+       ) : loading ? (
+        <p style={{color:"white"}}>Loading...</p>
+       ) : (
+        songList.map((song) => (
+        <li key={song._id}>
+          <Songcard {...song} image={`${baseUrl}${song.image}`} />
+        </li>
         ))
-        }
+       )
+       }
       </ul>
-       {/* {loading && <p>Loading more songs...</p>} */}
-        {!loading && (
+       
+        {!loading && songList.length > 5 && (
           <Button onClick={handleLoadMore} width="200px">
             {loading ? "Loading more " : "Load More"}
           </Button>

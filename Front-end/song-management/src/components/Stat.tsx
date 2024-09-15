@@ -2,19 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsMusicNoteList } from 'react-icons/bs';
 import { fetchStatisticsStart } from '../slices/songSlices';
-import { RootState } from '../store'; // Adjust the path as needed
+import { RootState } from '../store';
 import { Container, Title, Card, StatTitle, List, StatValue, Error } from '../components/Stylels/StatisticsStyle';
-
-
-interface Statistics {
-  totalSongs: number;
-  totalArtists: number;
-  totalAlbums: number;
-  totalGenres: number;
-  songsPerGenre: Array<{ _id: string; count: number }>;
-  songsPerArtist: Array<{ artist: string; songs: number; albums: number }>;
-  songsPerAlbum: Array<{ _id: string; count: number }>;
-}
 
 const StatisticsPage: React.FC = () => {
   const dispatch = useDispatch();

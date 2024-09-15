@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Song, Statistics } from '../types';
+import { FetchFilteredSongsPayload } from '../types';
 
 interface SongState {
   // songs: Song[];
@@ -7,6 +8,7 @@ interface SongState {
   statistics: Statistics | null;
   song: Song | null;
   loading: boolean;
+  success: boolean;
   error: string | null;
   currentPage: number;
 }
@@ -16,6 +18,7 @@ const initialState: SongState = {
   statistics: null,
   song: null,
   loading: false,
+  success:false,
   error: null,
   currentPage: 1,
 };
@@ -28,25 +31,15 @@ type FetchSongPayload = {
   id: string;
 };
 
-type FetchFilteredSongsPayload = {
-  search: string;
-  page: number;
-  limit: number;
-};
-
 const songSlice = createSlice({
   name: 'songs',
   initialState,
   reducers: {
     // Fetch all songs
-    fetchSongsStart(state, action: PayloadAction<{ page: number }>) {
-  
+    fetchSongsStart(state, _action: PayloadAction<{ page: number }>) {
       state.loading = true;
     },
-    // fetchSongsSuccess(state, action: PayloadAction<Song[]>) {
-    //   state.songs = action.payload;
-    //   state.loading = false;
-    // },
+    
     fetchSongsSuccess(state, action: PayloadAction<{songs:Song[]; page: number }>) {
       state.loading = false;
       state.error = null;
@@ -63,7 +56,7 @@ const songSlice = createSlice({
     },
 
     // Fetch filtered songs
-    fetchFilteredSongsStart(state, action: PayloadAction<Song[]>) {
+    fetchFilteredSongsStart(state, _action: PayloadAction<FetchFilteredSongsPayload>) {
       state.loading = true;
     },
     fetchFilteredSongsSuccess(state, action: PayloadAction<Song[]>) {
@@ -75,8 +68,8 @@ const songSlice = createSlice({
       state.loading = false;
     },
 
-    // Fetch a single song by ID
-    fetchSongByIdStart(state ,action: PayloadAction<FetchSongPayload>) {
+    // Fetch a single song by ID --- I'll use this while updating to fetch single song
+    fetchSongByIdStart(state, _action: PayloadAction<FetchSongPayload>) {
       state.loading = true;
     },
     fetchSongByIdSuccess(state, action: PayloadAction<Song>) {
@@ -89,20 +82,22 @@ const songSlice = createSlice({
     },
 
     // Create a new song
-    createSongStart(state, action: PayloadAction<FormData>) {
+    createSongStart(state, _action: PayloadAction<FormData>) {
       state.loading = true;
     },
     createSongSuccess(state, action: PayloadAction<Song>) {
       state.songs.push(action.payload);
       state.loading = false;
+      state.success = true;
     },
     createSongFailure(state, action: PayloadAction<string>) {
       state.error = action.payload;
       state.loading = false;
+      state.success = false;
     },
 
     // Update a song
-    updateSongStart(state, action: PayloadAction<{ id: string; data: FormData }>) {
+    updateSongStart(state, _action: PayloadAction<{ id: string; data: FormData }>) {
       state.loading = true;
     },
     updateSongSuccess(state, action: PayloadAction<Song>) {
@@ -111,6 +106,7 @@ const songSlice = createSlice({
         state.songs[index] = action.payload;
       }
       state.loading = false;
+      state.success = true;
     },
     updateSongFailure(state, action: PayloadAction<string>) {
       state.error = action.payload;
@@ -118,16 +114,18 @@ const songSlice = createSlice({
     },
 
     // Delete a song
-    deleteSongStart(state, action: PayloadAction<DeleteSongPayload>) {
+    deleteSongStart(state, _action: PayloadAction<DeleteSongPayload>) {
       state.loading = true;
     },
     deleteSongSuccess(state, action: PayloadAction<string>) {
       state.songs = state.songs.filter(song => song._id !== action.payload);
       state.loading = false;
+      state.success = false;
     },
     deleteSongFailure(state, action: PayloadAction<string>) {
       state.error = action.payload;
       state.loading = false;
+      state.success = false;
     },
   
     // Fetch statistics

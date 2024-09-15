@@ -1,16 +1,30 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  padding:  0;
+  padding:  5px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 1200px;
-//  width:100%;
+  max-width: 1280px;
+  height: 100vh;
   margin: 0 auto;
- background-color: #2e4053;
+  overflow-y:auto;
+  background-color: #2e4053;
+
+  /* Hide scrollbar on Webkit-based browsers (Chrome, Safari, etc.) */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar on Firefox */
+  scrollbar-width: none;
+
+  /* Hide scrollbar on Internet Explorer and Edge */
+  -ms-overflow-style: none;
+
   @media (max-width: 600px) {
     padding: 0 30px;
+    overflow-y: auto;
   }
 `;
 
@@ -70,7 +84,6 @@ export const List = styled.div`
   @media (max-width: 600px){
    flex-direction: column;
    padding: 0 10px;
-   background-color: #fab;
   }
 `;
 

@@ -16,15 +16,10 @@ type SongProps = {
   };
 
 const Songcard: React.FC<SongProps>  = ({_id,title, artist,image }) => {
-
-    const dispatch: AppDispatch = useDispatch();
-    const handleDelete = () => {
-      dispatch(deleteSongStart({id: _id}));
+     const dispatch: AppDispatch = useDispatch();
+     const handleDelete = () => {
+     dispatch(deleteSongStart({id: _id}));
     };
-
-    // const Update = (id:string) => {
-    //   return <Navigate to={`update/${id}`} />;
-    // }
 
   return (
     <Flex content="space-around" width='100%'>

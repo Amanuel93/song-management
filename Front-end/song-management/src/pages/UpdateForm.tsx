@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { fetchSongByIdStart, updateSongStart } from '../slices/songSlices'; // Import your actions
+import { fetchSongByIdStart, updateSongStart } from '../slices/songSlices';
 import { RootState } from '../store';
 import { FormContainer, Title, Form, Input, FileInput, Button } from '../components/Stylels/Formstyle';
 import { FormHandle } from '../components/Stylels/Container';
+import { useNavigate } from "react-router-dom";
 
 const UpdateSongForm: React.FC = () => {
   const { id } = useParams<{ id: string }>(); // Extract song ID from URL params
@@ -17,9 +18,10 @@ const UpdateSongForm: React.FC = () => {
     }
   }, [dispatch, id]);
 
-  // Get the song data from the Redux state
-  const { song, loading } = useSelector((state: RootState) => state.songs);
-  
+  // Get the song data from the Redux state --- to manage the success and the error throughout the UI
+  const { song, loading,success, error } = useSelector((state: RootState) => state.songs);
+  const navigate = useNavigate();
+
   // Initialize form data with the fetched song data
   const [formData, setFormData] = useState({
     title: '',
@@ -29,7 +31,7 @@ const UpdateSongForm: React.FC = () => {
     image: null as File | null,
   });
 
-  // Update form data when the song data is fetched
+  // Update form data when the song data is being fetched
   useEffect(() => {
     if (song) {
       setFormData({
@@ -63,7 +65,7 @@ const UpdateSongForm: React.FC = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e: React.FormEvent) => {
+   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     // Create form data object to handle image file upload
@@ -76,9 +78,13 @@ const UpdateSongForm: React.FC = () => {
       updatedSong.append('image', formData.image);
     }
 
-    // Ensure id is defined before dispatching
     if (id) {
       dispatch(updateSongStart({ id, data: updatedSong }));
+    }
+
+    if (success) {
+      alert('Song updated successfully!');
+      navigate('/'); // Redirect to home page
     }
   };
 
@@ -87,6 +93,8 @@ const UpdateSongForm: React.FC = () => {
       <FormContainer>
         <Title>Update Song</Title>
         {!loading ? (
+          <>
+           {error && <p style={{ color: 'red' }}>{error}</p>}
           <Form onSubmit={handleSubmit}>
             <Input
               type="text"
@@ -128,8 +136,9 @@ const UpdateSongForm: React.FC = () => {
             />
             <Button type="submit">Update Song</Button>
           </Form>
+         </>
         ) : (
-          <p>Loading...</p>
+          <p style={{  display: 'flex', justifyContent: 'center', alignItems: 'center' , color: 'White' }}>Loading...</p>
         )}
       </FormContainer>
     </FormHandle>

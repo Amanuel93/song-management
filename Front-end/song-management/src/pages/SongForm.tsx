@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { createSongStart } from '../slices/songSlices'; // Adjust the import path accordingly
+import { useDispatch,useSelector } from 'react-redux';
+import { RootState } from '../store';
+import { createSongStart } from '../slices/songSlices';
 import { FormContainer,Title,Form,Input,FileInput,Button } from '../components/Stylels/Formstyle';
 import { FormHandle } from '../components/Stylels/Container';
+import { useNavigate } from "react-router-dom";
+
 const SongForm: React.FC = () => {
   const dispatch = useDispatch();
 
+  const { success, error } = useSelector((state: RootState) => state.songs);
+  const navigate = useNavigate();
+  
   // Form state
   const [formData, setFormData] = useState({
     title: '',
@@ -59,12 +65,17 @@ const SongForm: React.FC = () => {
       album: '',
       image: null,
     });
+    if (success) {
+      alert('Song created successfully!');
+      navigate('/');
+    }
   };
 
   return (
     <FormHandle>
     <FormContainer>
       <Title>Create a New Song</Title>
+      {error && <p style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' , color: 'white' }}>Couldn't create song, try again!</p>}
       <Form onSubmit={handleSubmit}>
         <Input
           type="text"
