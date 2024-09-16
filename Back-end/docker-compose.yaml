@@ -1,17 +1,18 @@
-version: '3.8'
+name: back-end
 services:
   backend:
     build:
-      context: .
+      context: C:\Users\hp\Desktop\song-management\Back-end        
       dockerfile: Dockerfile
+    command:
+      - npm
+      - start
     container_name: backend-app
+    environment:
+      MONGODB_URI: mongodb+srv://horamallee193:Aman12345@cluster0.tv84e.mongodb.net/song-management?ssl=true&replicaSet=atlas-116o4h-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0
+      PORT: "5000"
     ports:
       - "5000:5000"
-    environment:
-      - PORT=5000
-      - MONGODB_URI=${MONGODB_URI}  # Use MongoDB Atlas connection string from .env
     volumes:
-      - ./uploads:/app/uploads   # Syncs uploads folder between host and container
-    env_file:
-      - .env  # Load environment variables from .env file
-    command: npm start  # Command to start the app
+      - C:\Users\hp\Desktop\song-management\Back-end\uploads:/app/uploads
+
