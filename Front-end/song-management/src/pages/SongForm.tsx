@@ -128,7 +128,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { createSongStart } from '../slices/songSlices';
+import { createSongStart,resetSuccessState } from '../slices/songSlices';
 import { FormContainer, Title, Form, Input, FileInput, Button } from '../components/Stylels/Formstyle';
 import { FormHandle } from '../components/Stylels/Container';
 import { useNavigate } from "react-router-dom";
@@ -146,6 +146,10 @@ const SongForm: React.FC = () => {
     album: '',
     image: null as File | null,
   });
+
+  useEffect(() => {
+    dispatch(resetSuccessState());
+  }, [dispatch]);
 
   // Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

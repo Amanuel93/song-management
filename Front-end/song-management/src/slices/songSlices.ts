@@ -95,7 +95,9 @@ const songSlice = createSlice({
       state.loading = false;
       state.success = false;
     },
-
+    resetSuccessState: (state) => {
+      state.success = false;
+    },
     // Update a song
     updateSongStart(state, _action: PayloadAction<{ id: string; data: FormData }>) {
       state.loading = true;
@@ -165,6 +167,7 @@ export const {
   fetchStatisticsStart,
   fetchStatisticsSuccess,
   fetchStatisticsFailure,
+  resetSuccessState
 } = songSlice.actions;
 
 export default songSlice.reducer;

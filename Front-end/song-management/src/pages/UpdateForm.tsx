@@ -122,7 +122,7 @@ const UpdateSongForm: React.FC = () => {
             />
             <Input
               type="text"
-              name={formData.album}
+              name="album"
               placeholder={formData.album || 'Enter album name'}
               value={formData.album}
               onChange={handleChange}
