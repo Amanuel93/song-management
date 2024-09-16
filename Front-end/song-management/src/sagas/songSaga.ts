@@ -32,7 +32,7 @@ function* fetchSongsSaga(action: ReturnType<typeof fetchSongsStart>) {
     // Making an API call to fetch the songs
     const response: AxiosResponse<{ songs: Song[] }> = yield call(
       axios.get,
-      'https://song-management-15.onrender.com/api/songs/getAllSongs',
+      'https://song-management-17.onrender.com/api/songs/getAllSongs',
       {
         params: { page }, // Passing page number as a query parameter
       }
@@ -50,7 +50,7 @@ function* fetchFilteredSongsSaga(action: { type: string; payload: FetchFilteredS
   try {
     const { search, genre, artist, album, page, limit } = action.payload;
 
-    const response: AxiosResponse<{ songs: Song[], total: number }> = yield call(axios.get, 'https://song-management-15.onrender.com/api/songs/getFilteredsong', {
+    const response: AxiosResponse<{ songs: Song[], total: number }> = yield call(axios.get, 'https://song-management-17.onrender.com/api/songs/getFilteredsong', {
       params: { search, genre, artist, album, page, limit },
     });
 
@@ -66,7 +66,7 @@ function* fetchFilteredSongsSaga(action: { type: string; payload: FetchFilteredS
 function* fetchSongByIdSaga(action: { type: string; payload: FetchSongByIdPayload }) {
   try {
     const { id } = action.payload;
-    const response: AxiosResponse<Song> = yield call(axios.get, `https://song-management-15.onrender.com/api/songs/getSong/${id}`);
+    const response: AxiosResponse<Song> = yield call(axios.get, `https://song-management-17.onrender.com/api/songs/getSong/${id}`);
     yield put(fetchSongByIdSuccess(response.data));
   } catch (error) {
     
@@ -78,7 +78,7 @@ function* fetchSongByIdSaga(action: { type: string; payload: FetchSongByIdPayloa
 // Create a new song
 function* createSongSaga(action: { type: string; payload: FormData }) {
   try {
-    const response: AxiosResponse<Song> = yield call(axios.post, 'https://song-management-15.onrender.com/api/songs/create', action.payload, {
+    const response: AxiosResponse<Song> = yield call(axios.post, 'https://song-management-17.onrender.com/api/songs/create', action.payload, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     yield put(createSongSuccess(response.data));
@@ -92,7 +92,7 @@ function* createSongSaga(action: { type: string; payload: FormData }) {
 function* updateSongSaga(action:  { type: string; payload: { id: string; data: FormData } }) {
   try {
     const { id, data } = action.payload;
-    const response: AxiosResponse<Song> = yield call(axios.put, `https://song-management-15.onrender.com/api/songs/updateSong/${id}`, data, {
+    const response: AxiosResponse<Song> = yield call(axios.put, `https://song-management-17.onrender.com/api/songs/updateSong/${id}`, data, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     yield put(updateSongSuccess(response.data));
@@ -106,7 +106,7 @@ function* updateSongSaga(action:  { type: string; payload: { id: string; data: F
 function* deleteSongSaga(action: { type: string; payload: { id: string }}) {
   try {
     const { id } = action.payload;
-    yield call(axios.delete, `https://song-management-15.onrender.com/api/songs/delete/${id}`);
+    yield call(axios.delete, `https://song-management-17.onrender.com/api/songs/delete/${id}`);
     yield put(deleteSongSuccess(id));
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
@@ -117,7 +117,7 @@ function* deleteSongSaga(action: { type: string; payload: { id: string }}) {
 // Fetch statistics
 function* fetchStatisticsSaga() {
   try {
-    const response: AxiosResponse<Statistics> = yield call(axios.get, 'https://song-management-15.onrender.com/api/songs/statistics');
+    const response: AxiosResponse<Statistics> = yield call(axios.get, 'https://song-management-17.onrender.com/api/songs/statistics');
     yield put(fetchStatisticsSuccess(response.data));
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
