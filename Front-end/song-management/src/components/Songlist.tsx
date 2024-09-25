@@ -66,7 +66,7 @@ console.log(songs);
        ) : (
         songList.map((song) => (
         <li key={song._id}>
-          <Songcard {...song} image={`${baseUrl}${song.image}`} />
+          <Songcard {...song} image={`${baseUrl}uploads/${song.image}`} />
         </li>
         ))
        )
